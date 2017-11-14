@@ -25,6 +25,7 @@ def counter(request, counter_id):
 		else:
 			resp = HttpResponse(str(c.value) + '\n', content_type='text/plain')
 		resp['Cache-Control'] = 's-maxage=600'
+		resp['Vary'] = 'Accept'
 		return resp
 	elif request.method == 'POST':
 		prev = c.incr()
