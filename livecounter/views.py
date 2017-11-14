@@ -17,7 +17,9 @@ def counter(request, counter_id):
 	if request.method == 'OPTIONS':
 		return HttpResponse()
 	elif request.method == 'GET':
-		return HttpResponse(str(c.value) + '\n', content_type='text/plain')
+		resp = HttpResponse(str(c.value) + '\n', content_type='text/plain')
+		resp['Cache-Control'] = 's-maxage=600'
+		return resp
 	elif request.method == 'POST':
 		prev = c.incr()
 		pub_data = {
@@ -39,6 +41,8 @@ def stream(request, counter_id):
 		body = ':' + (' ' * 2048) + '\n\n'
 		body += sse_encode(c.value)
 		set_hold_stream(request, 'counter-%s' % counter_id)
-		return HttpResponse(body, content_type='text/event-stream')
+		resp = HttpResponse(body, content_type='text/event-stream')
+		resp['Cache-Control'] = 's-maxage=600'
+		return resp
 	else:
 		return HttpResponseNotAllowed(['OPTIONS', 'GET'])
