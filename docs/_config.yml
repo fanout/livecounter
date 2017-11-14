@@ -1,0 +1,11 @@
+# Site settings
+title: Live Counter
+description: Live updating counter demo.
+baseurl: ""
+#url: "http://livecounter.org"
+
+# Build settings
+markdown: kramdown
+theme: minima
+
+exclude: [vendor]
