@@ -2,7 +2,7 @@
 layout: page
 ---
 
-The Live Counter Demo is a counter API with live updates. The API lets you increment integers and monitor them for changes. It is being used on this page to display page hits (inspired by [rauchg's blog](https://rauchg.com/essays)):
+The Live Counter Demo is a counter API with live updates. You can increment integers and monitor them for changes. It is being used on this page to display page hits (inspired by [rauchg's blog](https://rauchg.com/essays)):
 
 <div id="overlay" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index:999; background-color: white;"></div>
 <div><span id="hits-area">Page hits: <span id="hits"></span></span></div>
@@ -29,7 +29,7 @@ The Live Counter Demo is a counter API with live updates. The API lets you incre
 
 Of course, the counters provided by this API could be used for things other than page hits or display.
 
-This project uses a high scalability architecture based on [Fanout](https://fanout.io) (for handling HTTP streaming connections) and [Fastly](https://www.fastly.com/) (for caching last values and Fanout instructions). See [this article](#).
+This project uses a high scalability architecture based on [Fanout](https://fanout.io) (for handling HTTP streaming connections) and [Fastly](https://www.fastly.com/) (for caching last values and Fanout instructions). For background, see [this article](#).
 
 ## API
 
@@ -37,14 +37,14 @@ Counter resources are accessible using the form:
 
 `http://api.livecounter.org/counters/{counter-id}/`
 
-For the purposes of this demo, there is only one available counter ID, `1`, being used to display hits to this website. If you'd like to have your own live counters, the [code is here](https://github.com/fanout/livecounter).
+The demo service at `api.livecounter.org` has 9 counters available (IDs 1-9). Counter ID 1 is being used to display hits to this website. You can use IDs 2-9 for playing around. For real world use, you should deploy your own server instance. The [code is here](https://github.com/fanout/livecounter).
 
 ### Listening to a counter value
 
 To retrieve a counter's current value and listen for updates, make a `GET` request to the counter resource with the `Accept` header set to `text/event-stream`:
 
 ```http
-GET /counters/1/ HTTP/1.1
+GET /counters/2/ HTTP/1.1
 Host: api.livecounter.org
 Accept: text/event-stream
 ```
@@ -76,7 +76,7 @@ data: 28
 To increment a counter's value, make a `POST` request to its resource:
 
 ```http
-POST /counters/1/ HTTP/1.1
+POST /counters/2/ HTTP/1.1
 Host: api.livecounter.org
 Content-Length: 0
 ```
