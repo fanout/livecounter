@@ -17,7 +17,13 @@ def counter(request, counter_id):
 	if request.method == 'OPTIONS':
 		return HttpResponse()
 	elif request.method == 'GET':
-		resp = HttpResponse(str(c.value) + '\n', content_type='text/plain')
+		if 'text/event-stream' in request.META.get('HTTP_ACCEPT', ''):
+			body = ':' + (' ' * 2048) + '\n\n'
+			body += sse_encode(c.value)
+			set_hold_stream(request, 'counter-%s' % counter_id)
+			resp = HttpResponse(body, content_type='text/event-stream')
+		else:
+			resp = HttpResponse(str(c.value) + '\n', content_type='text/plain')
 		resp['Cache-Control'] = 's-maxage=600'
 		return resp
 	elif request.method == 'POST':
@@ -31,18 +37,3 @@ def counter(request, counter_id):
 		return HttpResponse(str(c.value) + '\n', content_type='text/plain')
 	else:
 		return HttpResponseNotAllowed(['OPTIONS', 'GET', 'POST'])
-
-def stream(request, counter_id):
-	c = get_object_or_404(Counter, name=counter_id)
-
-	if request.method == 'OPTIONS':
-		return HttpResponse()
-	elif request.method == 'GET':
-		body = ':' + (' ' * 2048) + '\n\n'
-		body += sse_encode(c.value)
-		set_hold_stream(request, 'counter-%s' % counter_id)
-		resp = HttpResponse(body, content_type='text/event-stream')
-		resp['Cache-Control'] = 's-maxage=600'
-		return resp
-	else:
-		return HttpResponseNotAllowed(['OPTIONS', 'GET'])

@@ -24,7 +24,7 @@ class Command(BaseCommand):
 		# purge from fastly cache
 		fa = fastly.API()
 		fa.authenticate_by_key(settings.FASTLY_API_KEY)
-		fa.purge_url(settings.FASTLY_DOMAIN, reverse('stream', args=[name]))
+		fa.purge_url(settings.FASTLY_DOMAIN, reverse('counter', args=[name]))
 
 		# publish through fanout
 		publish('counter-%s' % name, HttpStreamFormat(sse_encode(value)))
