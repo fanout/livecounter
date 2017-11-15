@@ -2,17 +2,15 @@
 layout: page
 ---
 
-The Live Counter Demo is a counter API with live updates. You can increment integers and monitor them for changes. It is being used on this page to display page hits (inspired by [rauchg's blog](https://rauchg.com/essays)):
-
 <div id="overlay" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index:999; background-color: white;"></div>
-<div><span id="hits-area">Page hits: <span id="hits"></span></span></div>
+<div><span id="views-area" style="font-family: monospace;">Views: <span id="views"></span></span></div>
 <script>
   $(function() {
     var url = 'http://api.livecounter.org/counters/1/';
     var firstValue = true;
     var es = new EventSource(url);
     es.addEventListener('message', function (e) {
-      $('#hits').text(e.data);
+      $('#views').text(e.data);
       if (firstValue) {
         firstValue = false;
         $('#overlay').hide();
@@ -20,14 +18,16 @@ The Live Counter Demo is a counter API with live updates. You can increment inte
         $.post(url, function () {});
       } else {
         // highlight animation for updates after initial value
-        $('#hits-area').effect('highlight', {}, 1000);
+        $('#views-area').effect('highlight', {}, 1000);
       }
     }, false);
   });
 </script>
 <p></p>
 
-Of course, the counters provided by this API could be used for things other than page hits or display.
+The Live Counter Demo is a counter API with live updates. You can increment integer counters and monitor them for changes, using a straightforward HTTP-based API. Data is pushed using Server-Sent Events (SSE).
+
+The API is being used on this page to display the view count at the top (inspired by [rauchg's blog](https://rauchg.com/essays)). Of course, the counters provided by this API could be used for things other than page views or display.
 
 This project uses a high scalability architecture based on [Fanout](https://fanout.io) (for handling HTTP streaming connections) and [Fastly](https://www.fastly.com/) (for caching last values and Fanout instructions). For background, see [this article](http://blog.fanout.io/2017/11/15/high-scalability-fanout-fastly/).
 
@@ -37,7 +37,7 @@ Counter resources are accessible using the form:
 
 `http://api.livecounter.org/counters/{counter-id}/`
 
-The demo service at `api.livecounter.org` has 9 counters available (IDs 1-9). Counter ID 1 is being used to display hits to this website. You can use IDs 2-9 for playing around. For real world use, you should deploy your own server instance. The [code is here](https://github.com/fanout/livecounter).
+The demo service at `api.livecounter.org` has 9 counters available (IDs 1-9). Counter ID 1 is being used to count the views to this website. You can use IDs 2-9 for playing around. For real world use, you should deploy your own server instance. The [code is here](https://github.com/fanout/livecounter).
 
 ### Listening to a counter value
 
@@ -49,7 +49,7 @@ Host: api.livecounter.org
 Accept: text/event-stream
 ```
 
-You'll receive a streaming response containing the current value:
+You'll receive an SSE-formatted streaming response containing the current value:
 
 ```http
 HTTP/1.1 200 OK
@@ -83,23 +83,23 @@ Content-Length: 0
 
 The updated value will be pushed to any listening connections.
 
-## Page hits
+## Page views
 
-This website implements a page hit counter like this:
+The view counter on this page is implemented like this:
 
 ```js
 var url = 'http://api.livecounter.org/counters/1/';
 var firstValue = true;
 var es = new EventSource(url);
 es.addEventListener('message', function (e) {
-  $('#hits').text(e.data);
+  $('#views').text(e.data);
   if (firstValue) {
     firstValue = false;
     // after receiving initial value, increment counter
     $.post(url, function () {});
   } else {
     // highlight animation for updates after initial value
-    $('#hits-area').effect('highlight', {}, 1000);
+    $('#views-area').effect('highlight', {}, 1000);
   }
 }, false);
 ```
