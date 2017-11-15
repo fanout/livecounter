@@ -29,7 +29,7 @@ The Live Counter Demo is a counter API with live updates. You can increment inte
 
 Of course, the counters provided by this API could be used for things other than page hits or display.
 
-This project uses a high scalability architecture based on [Fanout](https://fanout.io) (for handling HTTP streaming connections) and [Fastly](https://www.fastly.com/) (for caching last values and Fanout instructions). For background, see [this article](#).
+This project uses a high scalability architecture based on [Fanout](https://fanout.io) (for handling HTTP streaming connections) and [Fastly](https://www.fastly.com/) (for caching last values and Fanout instructions). For background, see [this article](http://blog.fanout.io/2017/11/15/high-scalability-fanout-fastly/).
 
 ## API
 
