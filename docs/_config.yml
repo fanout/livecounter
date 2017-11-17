@@ -1,6 +1,6 @@
 # Site settings
-title: Live Counter Demo
-description: Live updating counter demo.
+title: Live Counter
+description: Counter API with live updates.
 baseurl: ""
 #url: "http://livecounter.org"
 

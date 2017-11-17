@@ -25,19 +25,19 @@ layout: page
 </script>
 <p></p>
 
-The Live Counter Demo is a counter API with live updates. You can increment integer counters and monitor them for changes, using a straightforward HTTP-based API. Data is pushed using Server-Sent Events (SSE).
+Live Counter is a counter API with live updates. You can increment integer counters and monitor them for changes, using a straightforward HTTP-based API. Data is pushed using Server-Sent Events (SSE).
 
-The API is being used on this page to display the view count at the top (inspired by [rauchg's blog](https://rauchg.com/essays)). Of course, the counters provided by this API could be used for things other than page views or display.
+Get the server code [here](https://github.com/fanout/livecounter). There is also a demo instance running at `api.livecounter.org`.
+
+The API is being used on this page to display the view count at the top (inspired by [rauchg's blog](https://rauchg.com/essays)). Of course, counters could be used for things other than page views or display.
 
 This project uses a high scalability architecture based on [Fanout](https://fanout.io) (for handling HTTP streaming connections) and [Fastly](https://www.fastly.com/) (for caching last values and Fanout instructions). For background, see [this article](http://blog.fanout.io/2017/11/15/high-scalability-fanout-fastly/).
 
 ## API
 
-Counter resources are accessible using the form:
+Counter resources are accessible using the form `/counters/{counter-id}/`.
 
-`http://api.livecounter.org/counters/{counter-id}/`
-
-The demo service at `api.livecounter.org` has 9 counters available (IDs 1-9). Counter ID 1 is being used to count the views to this website. You can use IDs 2-9 for playing around. For real world use, you should deploy your own server instance. The [code is here](https://github.com/fanout/livecounter).
+The demo instance at `api.livecounter.org` has 9 counters available (IDs 1-9). Counter ID 1 is being used to count the views to this website. You can use IDs 2-9 for playing around.
 
 ### Listening to a counter value
 
