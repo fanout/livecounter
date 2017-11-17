@@ -7,6 +7,7 @@ import fastly
 from django.conf import settings
 from django.urls import reverse
 from django.core.management.base import BaseCommand
+from django.db import connection
 from gripcontrol import HttpStreamFormat
 from django_grip import publish
 from livecounter.models import Counter
@@ -55,6 +56,7 @@ class Command(BaseCommand):
 		while True:
 			try:
 				for name in r.smembers('counter-need-send'):
+					connection.close_if_unusable_or_obsolete()
 					c = Counter.objects.get(name=name)
 					value = c.value
 					if not r.exists('counter-sent-%s' % name):
