@@ -1,6 +1,6 @@
 # Live Counter
 
-Server implementation and API for a counter with live updates. POST to increment. GET to listen for updates (server-sent events).
+Django implementation and API for a counter with live updates. POST to increment. GET to listen for updates (server-sent events).
 
 This project uses [Fastly](https://www.fastly.com/) and [Fanout](https://fanout.io/) for high scale. Essentially, Fastly caches the current counter values, and counter updates are pushed through Fanout, greatly reducing load on the Django app itself in order to serve lots of clients. Technical background in [this article](http://blog.fanout.io/2017/11/15/high-scalability-fanout-fastly/).
 
