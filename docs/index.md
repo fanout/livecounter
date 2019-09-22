@@ -6,7 +6,7 @@ layout: page
 <div><span id="views-area" style="font-family: monospace;">Views: <span id="views"></span></span></div>
 <script>
   $(function() {
-    var url = 'http://api.livecounter.org/counters/1/';
+    var url = '//api.livecounter.org/counters/1/';
     var firstValue = true;
     var es = new EventSource(url);
     es.addEventListener('message', function (e) {
@@ -88,7 +88,7 @@ The updated value will be pushed to any listening connections.
 The view counter on this page is implemented like this:
 
 ```js
-var url = 'http://api.livecounter.org/counters/1/';
+var url = 'https://api.livecounter.org/counters/1/';
 var firstValue = true;
 var es = new EventSource(url);
 es.addEventListener('message', function (e) {
