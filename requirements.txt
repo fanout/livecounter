@@ -1,7 +1,7 @@
 Django==1.11.28
 PyJWT==1.5.3
 argparse==1.2.1
-certifi==2017.11.5
+certifi==2023.7.22
 chardet==3.0.4
 dj-database-url==0.4.2
 django-dotenv==1.4.1
