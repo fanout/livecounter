@@ -23,7 +23,7 @@ class Command(BaseCommand):
 		self.stdout.write('outputting: %s=%d' % (name, value))
 
 		# purge from fastly cache
-		fa = fastly.API()
+		fa = fastly.API(host=settings.FASTLY_DOMAIN)
 		fa.authenticate_by_key(settings.FASTLY_API_KEY)
 		fa.purge_url(settings.FASTLY_DOMAIN, reverse('counter', args=[name]))
 
